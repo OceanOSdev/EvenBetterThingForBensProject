@@ -191,6 +191,22 @@
     <Compile Include="Migrations\201603192315371_EvenBetterShoppingCart.Designer.cs">
       <DependentUpon>201603192315371_EvenBetterShoppingCart.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201603302114163_MorePendantStuff.cs" />
+    <Compile Include="Migrations\201603302114163_MorePendantStuff.Designer.cs">
+      <DependentUpon>201603302114163_MorePendantStuff.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603302136359_RemoveMedium.cs" />
+    <Compile Include="Migrations\201603302136359_RemoveMedium.Designer.cs">
+      <DependentUpon>201603302136359_RemoveMedium.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603302139439_PriceIsNotSecure.cs" />
+    <Compile Include="Migrations\201603302139439_PriceIsNotSecure.Designer.cs">
+      <DependentUpon>201603302139439_PriceIsNotSecure.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603302145224_PriceIsCurrency.cs" />
+    <Compile Include="Migrations\201603302145224_PriceIsCurrency.Designer.cs">
+      <DependentUpon>201603302145224_PriceIsCurrency.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -288,6 +304,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201603192315371_EvenBetterShoppingCart.resx">
       <DependentUpon>201603192315371_EvenBetterShoppingCart.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603302114163_MorePendantStuff.resx">
+      <DependentUpon>201603302114163_MorePendantStuff.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603302136359_RemoveMedium.resx">
+      <DependentUpon>201603302136359_RemoveMedium.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603302139439_PriceIsNotSecure.resx">
+      <DependentUpon>201603302139439_PriceIsNotSecure.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603302145224_PriceIsCurrency.resx">
+      <DependentUpon>201603302145224_PriceIsCurrency.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

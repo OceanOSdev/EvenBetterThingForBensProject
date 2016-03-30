@@ -23,7 +23,6 @@ namespace WebApplication1.Models
     public enum Size
     {
         Small,
-        Medium,
         Large
     }
 }

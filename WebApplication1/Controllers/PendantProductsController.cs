@@ -8,22 +8,34 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication1.Models;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace WebApplication1.Controllers
 {
+    [Authorize]
     public class PendantProductsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private UserManager<ApplicationUser> manager;
+
+        public PendantProductsController()
+        {
+            manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db)); ;
+        }
 
         // GET: PendantProducts
         public async Task<ActionResult> Index()
         {
-            return View(await db.PendantProducts.ToListAsync());
+            var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
+            return View(db.PendantProducts.ToList().Where(pendant => pendant.User.Id == currentUser.Id));
         }
 
         // GET: PendantProducts/Details/5
         public async Task<ActionResult> Details(int? id)
         {
+            var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -33,6 +45,8 @@ namespace WebApplication1.Controllers
             {
                 return HttpNotFound();
             }
+            if (pendantProduct.User.Id != currentUser.Id)
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
             return View(pendantProduct);
         }
 
@@ -49,9 +63,12 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Id,Description,PendantSize")] PendantProduct pendantProduct)
         {
+            var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
             if (ModelState.IsValid)
             {
                 //pendantProduct.User = new ApplicationUser { UserName = User.Identity.IsAuthenticated ? User.Identity.Name : "whoops" };
+                pendantProduct.User = currentUser;
+                pendantProduct.Price = pendantProduct.PendantSize == Size.Small ? 30.00m : 70.00m;
                 db.PendantProducts.Add(pendantProduct);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -63,6 +80,7 @@ namespace WebApplication1.Controllers
         // GET: PendantProducts/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
+            var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -72,6 +90,8 @@ namespace WebApplication1.Controllers
             {
                 return HttpNotFound();
             }
+            if (pendantProduct.User.Id != currentUser.Id)
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
             return View(pendantProduct);
         }
 
@@ -84,6 +104,7 @@ namespace WebApplication1.Controllers
         {
             if (ModelState.IsValid)
             {
+                pendantProduct.Price = pendantProduct.PendantSize == Size.Small ? 30.00m : 70.00m;
                 db.Entry(pendantProduct).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -94,6 +115,7 @@ namespace WebApplication1.Controllers
         // GET: PendantProducts/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
+            var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -103,6 +125,8 @@ namespace WebApplication1.Controllers
             {
                 return HttpNotFound();
             }
+            if (pendantProduct.User.Id != currentUser.Id)
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
             return View(pendantProduct);
         }
 

@@ -7,13 +7,14 @@ using System;
 using System.Collections.Generic;
 using System.Web;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebApplication1.Models
 {
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
-        public List<Pendant> Cart { get; set; }
+        public virtual List<Pendant> Cart { get; set; }
         //public virtual  ICollection<PendantProduct> ShopCart { get; set; }
         public virtual MyUserInfo MyUserInfo { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
@@ -35,9 +36,11 @@ namespace WebApplication1.Models
     {
 
         public int Id { get; set; }
-        public decimal Price { get; }
+        [DataType(DataType.Currency)]
+        public decimal Price { get; set; }
         public string Description { get; set; }
         public Size PendantSize { get; set; }
+        [Display(Name = "Picture")]
         public string FileName { get { return Id + ".jpg"; } }
 
         public virtual ApplicationUser User { get; set; }
